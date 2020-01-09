@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
     name='testlinkwrapper',
     packages=['testlinkwrapper'],
-    version='0.1.1',
+    version='0.1.2',
     license='MIT',
     description='Wrapper for test tool Testlink',
     author='Alejandro Manzanero',
     # author_email='your.email@domain.com',
     # url='https://github.com/user/reponame',
-    download_url='https://github.com/Manzanero/testlinkwrapper/archive/v_0_1_1.tar.gz',
+    download_url='https://github.com/Manzanero/testlinkwrapper/archive/v_0_1_2.tar.gz',
     keywords=['test', 'testlink', 'wrapper'],
     install_requires=[
         'TestLink-API-Python-client',
