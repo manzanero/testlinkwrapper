@@ -8,7 +8,7 @@ setup(
     author='Alejandro Manzanero',
     # author_email='your.email@domain.com',
     # url='https://github.com/user/reponame',
-    download_url='https://github.com/user/testlinkwrapper/archive/v_0_1_0.tar.gz',
+    download_url='https://github.com/Manzanero/testlinkwrapper/archive/v_0_1_0.tar.gz',
     keywords=['test', 'testlink', 'wrapper'],
     install_requires=[
         'TestLink-API-Python-client',
