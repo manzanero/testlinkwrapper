@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
     name='testlinkwrapper',
     packages=['testlinkwrapper'],
-    version='0.1.0',
+    version='0.1.1',
     license='MIT',
     description='Wrapper for test tool Testlink',
     author='Alejandro Manzanero',
