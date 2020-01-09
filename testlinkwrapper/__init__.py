@@ -725,5 +725,6 @@ class TestLinkWrapper(object):
 if __name__ == '__main__':
     SERVER_URL = 'http://xxx'
     DEVKEY = 'xxx'
-    tls = TestLinkWrapper(SERVER_URL, DEVKEY)
-    print(json.dumps([x.__dict__ for x in tls.projects], indent=2))
+    tl = TestLinkWrapper(SERVER_URL, DEVKEY)
+    for p in tl.projects:
+        print(p.name)
