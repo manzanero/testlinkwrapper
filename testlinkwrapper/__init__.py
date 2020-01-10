@@ -219,7 +219,11 @@ class ActionOnDuplicate(ConstansObject):
 
 class TestLinkWrapper(object):
 
-    def __init__(self, server_url, devkey):
+    def __init__(self, server_url=None, devkey=None):
+        server_url = server_url or os.environ.get('TESTLINK_URL')
+        devkey = devkey or os.environ.get('TESTLINK_DEVKEY')
+        if not all([server_url, devkey]):
+            raise testlink.TestLinkError("Please, set TESTLINK_URL and TESTLINK_DEVKEY environment variables")
         self.client: testlink.TestlinkAPIClient = testlink.TestlinkAPIClient(server_url, devkey)
 
     @property
@@ -476,9 +480,9 @@ class TestLinkWrapper(object):
 
     def revoke_test_case_to_all_users(self, test_plan: TestPlan, test_case: TestCase, build: Build,
                                       platform: Platform = None):
-        user = tls.get_user_assigned_to_test_case(test_plan, test_case, build, platform)
+        user = self.get_user_assigned_to_test_case(test_plan, test_case, build, platform)
         while user:
-            user = tls.get_user_assigned_to_test_case(test_plan, test_case, build, platform)
+            user = self.get_user_assigned_to_test_case(test_plan, test_case, build, platform)
             if user:
                 self.revoke_test_case_to_user(user.name, test_plan, test_case, build, platform)
             else:
@@ -723,8 +727,13 @@ class TestLinkWrapper(object):
 
 
 if __name__ == '__main__':
-    SERVER_URL = 'http://xxx'
-    DEVKEY = 'xxx'
-    tl = TestLinkWrapper(SERVER_URL, DEVKEY)
-    for p in tl.projects:
-        print(p.name)
+    TESTLINK_URL = 'http://xxx'
+    TESTLINK_DEVKEY = 'xxx'
+    tlw = TestLinkWrapper(TESTLINK_URL, TESTLINK_DEVKEY)
+    for project in tlw.projects:
+        print(project.name)
+
+    # TESTLINK_URL and TESTLINK_DEVKEY as environment variables
+    tlw = TestLinkWrapper()
+    for project in tlw.projects:
+        print(project.name)
