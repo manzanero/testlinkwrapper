@@ -295,7 +295,7 @@ class TestLinkWrapper(object):
                           action_on_duplicated_name: str = ActionOnDuplicate.BLOCK) -> TestSuite:
         response = self.client.createTestSuite(
             testprojectid=test_project.id,
-            parentid=test_suite.id,  # untested
+            parentid=test_suite.id if test_suite else None,
             testsuitename=name,
             details=details,
             order=order,
