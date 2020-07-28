@@ -313,6 +313,15 @@ class TestLinkWrapper(object):
         assert response['id'] == test_suite_id, "error on test suite search: " + str(response)
         return TestSuite(response)
 
+    def get_first_level_test_suites(self, test_project: TestProject):
+        try:
+            first_level_ts_for_p = self.client.getFirstLevelTestSuitesForTestProject(test_project.id)
+            if not first_level_ts_for_p:
+                return []
+        except testlink.TestLinkError:
+            return []
+        return [self.get_test_suite_by_id(test_suite_id=ts['id']) for ts in first_level_ts_for_p]
+
     def get_test_suites_for_test_suite(self, test_suite_id: str) -> List[TestSuite]:
         response = self.client.getTestSuitesForTestSuite(test_suite_id)
         if not response:
