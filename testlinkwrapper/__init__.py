@@ -1,6 +1,7 @@
 import datetime
 import os
 import xml
+from pyexpat import ExpatError
 from typing import List
 
 import testlink
@@ -323,7 +324,10 @@ class TestLinkWrapper(object):
         return [self.get_test_suite_by_id(test_suite_id=ts['id']) for ts in first_level_ts_for_p]
 
     def get_test_suites_for_test_suite(self, test_suite_id: str) -> List[TestSuite]:
-        response = self.client.getTestSuitesForTestSuite(test_suite_id)
+        try:
+            response = self.client.getTestSuitesForTestSuite(test_suite_id)
+        except ExpatError:
+            return []
         if not response:
             return []
         return [TestSuite(response)] if 'id' in response else [TestSuite(ts) for ts in response.values()]
@@ -419,7 +423,10 @@ class TestLinkWrapper(object):
 
     def get_test_cases_for_test_suite(self, test_suite: TestSuite) -> List[TestCase]:
         tc_for_ts = self.client.getTestCasesForTestSuite(test_suite.id, True, ResponseDetails.FULL)
-        return [TestCase(x[0]) for x in tc_for_ts]
+        try:
+            return [TestCase(x[0]) for x in tc_for_ts]
+        except KeyError:
+            return [TestCase(x) for x in tc_for_ts]
 
     def get_test_cases_for_test_plan(self, test_plan: TestPlan) -> List[TestCase]:
         tc_for_tp = self.client.getTestCasesForTestPlan(test_plan.id, details=ResponseDetails.FULL)
